@@ -16,7 +16,7 @@ FROM STREAM read_files(
 
 CREATE OR REFRESH STREAMING TABLE olist_silver.order_events (
   CONSTRAINT order_id_presente EXPECT (order_id IS NOT NULL) ON VIOLATION DROP ROW, -- Se order_id for nulo a o registro é descartado
-  CONSTRAINT event_ts_presente EXPECT (event_ts IS NOT NULL) ON VIOLATION FAIL UPDATE, -- se event_ts for nulo a atualização inteira falha e é revertida
+  CONSTRAINT event_ts_presente EXPECT (event_ts IS NOT NULL) ON VIOLATION FAIL UPDATE, -- se event_ts for nulo a transação desta tabela é revertida e as downstream não recebem dados novos o flows independentes continuam.
   CONSTRAINT status_conhecido EXPECT (order_status IN ('created', 'approved', 'invoiced', 'processing', 'shipped', 'delivered', 'canceled', 'unavailable')), -- Se algum valor de order_status não for o da lista o registro é gravado mas um aviso é criado
   CONSTRAINT operacao_valida EXPECT (operation IN ('UPSERT', 'DELETE')) ON VIOLATION DROP ROW -- se operation não for um dos valores o registro é descartado
 )
