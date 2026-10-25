@@ -9,7 +9,7 @@ AS SELECT
     _metadata.file_path AS _source_file,
     current_timestamp() AS _ingested_at
 FROM STREAM read_files(
-    '${landing_path}/payments',
+    '${landing_path}/payments/',
     format => 'json',
     schema => 'order_id STRING, payment_sequential STRING, payment_type STRING, payment_installments STRING, payment_value STRING'
 );

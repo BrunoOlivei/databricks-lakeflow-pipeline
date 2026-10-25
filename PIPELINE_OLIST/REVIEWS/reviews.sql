@@ -9,7 +9,7 @@ AS SELECT
     _metadata.file_path AS _source_file,
     current_timestamp() AS _ingested_at
 FROM STREAM read_files(
-    '${landing_path}/reviews',
+    '${landing_path}/reviews/',
     format => 'json',
     schema => 'review_id STRING, order_id STRING, review_score STRING, review_comment_title STRING, review_comment_message STRING, review_creation_date STRING, review_answer_timestamp STRING'
 );
