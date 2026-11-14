@@ -29,7 +29,7 @@ END;
 
 -- COMMAND ----------
 
--- Cria uma função de column mask para o schema `olist_gold` mascarando o CEP
+-- Cria uma função de column mask para o schema `olist_silver.customers_current mascarando o CEP
 CREATE OR REPLACE FUNCTION databricksestudos.olist_governanca.mascara_cep(cep STRING)
 RETURNS STRING
 COMMENT 'Column mask do CEP: olist_admin vê completo; demais veem só os 2 primeiros dígitos'
@@ -40,7 +40,7 @@ END;
 
 -- COMMAND ----------
 
--- REVOKE SELECT ON TABLE databricksestudos.olist_gold.receita_diaria_uf FROM `olist_analistas` -- Revoga permissão de SELECT no schema `olist_gold` não funciona pois a permissão de SELECT é herdada do schema `olist_gold`
+-- REVOKE SELECT ON TABLE databricksestudos.olist_gold.receita_diaria_uf FROM `olist_analistas` -- Revoga permissão de SELECT na tabela `receita_diaria_uf` não funciona pois a permissão de SELECT é herdada do schema `olist_gold`
 
 -- COMMAND ----------
 
