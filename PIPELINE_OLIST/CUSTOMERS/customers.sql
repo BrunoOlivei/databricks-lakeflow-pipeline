@@ -33,7 +33,14 @@ AS SELECT
   _ingested_at
 FROM STREAM(olist_bronze.customers);
 
-CREATE OR REFRESH STREAMING TABLE olist_silver.customers_current
+CREATE OR REFRESH STREAMING TABLE olist_silver.customers_current (
+  customer_id STRING COMMENT 'Id do cliente',
+  customer_unique_id STRING COMMENT 'Id único do cliente',
+  customer_zip_code_prefix STRING MASK databricksestudos.olist_governanca.mascara_cep COMMENT 'CEP do cliente',
+  customer_city STRING COMMENT 'Cidade do cliente',
+  customer_state STRING COMMENT 'UF do cliente',
+  snapshot_ts TIMESTAMP COMMENT 'Data de atualização do registro'
+)
 COMMENT 'Cadastro atual de clientes — SCD tipo 1'
 TBLPROPERTIES (
     'quality' = 'silver'
