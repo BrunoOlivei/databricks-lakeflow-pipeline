@@ -3,6 +3,7 @@ COMMENT 'Pedidos e receita por dia de compra e UF'
 TBLPROPERTIES(
     'quality' = 'gold'
 )
+WITH ROW FILTER databricksestudos.olist_governanca.filtro_uf ON (uf)
 AS
 WITH pagamentos AS (
     SELECT order_id, SUM(payment_value) AS valor_pago
@@ -27,6 +28,7 @@ COMMENT 'Pedidos entregues por UF: prazo médio e percentual com atraso'
 TBLPROPERTIES(
     'quality' = 'gold'
 )
+WITH ROW FILTER databricksestudos.olist_governanca.filtro_uf ON (uf)
 AS SELECT
   c.customer_state AS uf,
   COUNT(*) AS pedidos_entregues,
