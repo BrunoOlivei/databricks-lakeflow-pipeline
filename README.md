@@ -65,7 +65,7 @@ graph LR
 ├── 01_gerador_olist.py      # gera N dias de JSON por execução a partir dos CSVs do Kaggle
 ├── 02_checagem_gold.py      # task do job: publica task values a partir da gold
 ├── 03_alerta.py             # task do job: alerta genérico (ramo false do If/else e Run if)
-├── 04_governanca.sql        # schema olist_governanca, GRANTs e funções de row filter e column mask
+├── 04_governanca.py        # schema olist_governanca, GRANTs e funções de row filter e column mask
 └── PIPELINE_OLIST/          # código-fonte do pipeline declarativo (SQL)
     ├── ORDERS/
     │   ├── orders_events.sql   # bronze + silver de eventos, CDC SCD 1 e SCD 2
@@ -153,7 +153,7 @@ As permissões de workspace (entitlements) seguem o menor privilégio: *Workspac
 
 ### Privilégios
 
-Definidos em `04_governanca.sql`, concedidos ao grupo e herdados pelos membros:
+Definidos em `04_governanca.py`, concedidos ao grupo e herdados pelos membros:
 
 | Objeto | Privilégio | Efeito |
 |---|---|---|
@@ -224,7 +224,7 @@ O job `OLIST_JOB` é disparado por **file arrival** na pasta `landing/order_even
 
 1. Clone este repositório como **Git folder** no workspace.
 2. Rode `00_setup.py` para criar os schemas e o Volume `olist_raw.landing`.
-3. Crie na UI os grupos de conta `olist_admin`, `olist_analistas` e `olist_analistas_sp` (aninhado em `olist_analistas`) e o service principal `sp_olist` (membro de `olist_analistas`). Depois rode `04_governanca.sql`: as funções precisam existir **antes** do primeiro update do pipeline, que as referencia.
+3. Crie na UI os grupos de conta `olist_admin`, `olist_analistas` e `olist_analistas_sp` (aninhado em `olist_analistas`) e o service principal `sp_olist` (membro de `olist_analistas`). Depois rode `04_governanca.py`: as funções precisam existir **antes** do primeiro update do pipeline, que as referencia.
 4. Baixe o dataset no [Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce), descompacte e faça upload dos CSVs para `/Volumes/<catalogo>/olist_raw/landing/source/`.
 5. Rode `01_gerador_olist.py`. Widgets:
 
@@ -264,7 +264,7 @@ Use sempre pipeline triggered (nunca contínuo) e pause o trigger do job quando 
 - `dim_sellers` ainda não é usada na gold.
 - As materialized views de dimensão leem arquivos direto do Volume, o que impede refresh incremental. Como são pequenas e estáticas, o recompute completo é aceitável.
 - A definição do job e as configurações do pipeline ainda não estão versionadas neste repositório.
-- O catálogo `databricksestudos` está fixo nos nomes das funções de governança (`gold.sql`, `customers.sql`) e em `04_governanca.sql`. Um ambiente dev com outro catálogo vai exigir parametrizar esses nomes.
+- O catálogo `databricksestudos` está fixo nos nomes das funções de governança (`gold.sql`, `customers.sql`) e em `04_governanca.py`. Um ambiente dev com outro catálogo vai exigir parametrizar esses nomes.
 - Um grupo por UF não escala (27 grupos e 27 ramos no `CASE`). A evolução natural é uma tabela de mapeamento grupo → UFs consultada pela função, ou políticas ABAC com tags governadas.
 
 ## Próximos passos
