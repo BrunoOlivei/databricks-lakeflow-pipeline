@@ -11,6 +11,8 @@ include:
 variables:
   catalog:
     description: Catálogo do Unity Catalog onde o pipeline grava e lê
+  email_alerta:
+    description: E-mail que recebe a notificação de falha do OLIST_JOB
 
 
 # Ambientes. Por enquanto só o dev; o prod entra no final.
@@ -26,3 +28,4 @@ targets:
     # 2) Valor da variável neste target.
     variables:
       catalog: databricksestudos_dev
+      email_alerta: ${workspace.current_user.userName}
