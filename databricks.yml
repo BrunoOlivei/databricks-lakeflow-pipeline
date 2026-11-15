@@ -29,3 +29,12 @@ targets:
     variables:
       catalog: databricksestudos_dev
       email_alerta: ${workspace.current_user.userName}
+  
+  prod:
+    mode: production
+    workspace:
+      host: https://adb-7405612385535757.17.azuredatabricks.net
+      root_path: /Workspace/Users/brunoolivei@protonmail.com/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      catalog: databricksestudos
+      email_alerta: ${workspace.current_user.userName}
