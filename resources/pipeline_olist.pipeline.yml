@@ -1,0 +1,27 @@
+resources:
+  pipelines:
+    pipeline_olist:
+      name: PIPELINE_OLIST
+      configuration:
+        "catalog": ${var.catalog}
+        "landing_path": "/Volumes/${var.catalog}/olist_raw/landing"
+      libraries:
+        - glob:
+            include: ../PIPELINE_OLIST/ORDERS/**
+        - glob:
+            include: ../PIPELINE_OLIST/DIMENSOES/**
+        - glob:
+            include: ../PIPELINE_OLIST/PAYMENTS/**
+        - glob:
+            include: ../PIPELINE_OLIST/REVIEWS/**
+        - glob:
+            include: ../PIPELINE_OLIST/CUSTOMERS/**
+        - glob:
+            include: ../PIPELINE_OLIST/GOLD/**
+      catalog: ${var.catalog}
+      channel: CURRENT
+      continuous: false
+      photon: true
+      root_path: ../PIPELINE_OLIST
+      schema: olist_bronze
+      serverless: true

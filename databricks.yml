@@ -1,0 +1,40 @@
+# Nome do projeto. Aparece no caminho da pasta do bundle no workspace
+# (/Workspace/Users/<você>/.bundle/olist/dev/...).
+bundle:
+  name: olist
+
+# Outros arquivos YAML que fazem parte do bundle.
+include:
+  - resources/*.yml
+
+# 1) Declaração: a variável existe e serve para isto.
+variables:
+  catalog:
+    description: Catálogo do Unity Catalog onde o pipeline grava e lê
+  email_alerta:
+    description: E-mail que recebe a notificação de falha do OLIST_JOB
+
+
+# Ambientes. Por enquanto só o dev; o prod entra no final.
+targets:
+  dev:
+    # Modo desenvolvimento: prefixa os nomes com [dev <usuário>],
+    # marca o pipeline como development e pausa triggers/agendamentos.
+    mode: development
+    # Target usado quando o comando não informa -t.
+    default: true
+    workspace:
+      host: https://adb-7405612385535757.17.azuredatabricks.net
+    # 2) Valor da variável neste target.
+    variables:
+      catalog: databricksestudos_dev
+      email_alerta: ${workspace.current_user.userName}
+  
+  prod:
+    mode: production
+    workspace:
+      host: https://adb-7405612385535757.17.azuredatabricks.net
+      root_path: /Workspace/Users/brunoolivei@protonmail.com/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      catalog: databricksestudos
+      email_alerta: ${workspace.current_user.userName}
